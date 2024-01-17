@@ -10,7 +10,7 @@ public class PluginManager {
 
     public static PluginManager getInstance() throws Exception {
         if (instance == null) {
-            // User ContextClassLoader to support load plugins dynamic
+            // Use ContextClassLoader to support load plugin dynamic
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             Enumeration<URL> pluginConfigUrls = classLoader.getResources("META-INF/zxf/java/plugin/plugin.conf");
 
