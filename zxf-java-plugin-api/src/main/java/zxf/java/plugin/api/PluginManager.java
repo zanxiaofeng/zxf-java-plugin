@@ -10,14 +10,16 @@ public class PluginManager {
 
     public static PluginManager getInstance() throws Exception {
         if (instance == null) {
-            Enumeration<URL> pluginConfigUrls = PluginManager.class.getClassLoader().getResources("META-INF/zxf/java/plugin/plugin.conf");
+            // User ContextClassLoader to support load plugins dynamic
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            Enumeration<URL> pluginConfigUrls = classLoader.getResources("META-INF/zxf/java/plugin/plugin.conf");
 
             ConcurrentHashMap<String, Plugin> registeredPlugins = new ConcurrentHashMap<>();
             while (pluginConfigUrls.hasMoreElements()) {
                 URL pluginConfigUrl = pluginConfigUrls.nextElement();
                 try (InputStream stream = pluginConfigUrl.openStream()) {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-                    Class klass = Class.forName(reader.readLine());
+                    Class klass = classLoader.loadClass(reader.readLine());
                     Plugin plugin = (Plugin) klass.getDeclaredConstructor().newInstance();
                     registeredPlugins.put(plugin.type(), plugin);
                 }

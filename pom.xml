@@ -13,7 +13,8 @@
         <module>zxf-java-plugin-api</module>
         <module>zxf-java-plugin-a</module>
         <module>zxf-java-plugin-b</module>
-        <module>zxf-java-plugin-test</module>
+        <module>zxf-java-plugin-test-static</module>
+        <module>zxf-java-plugin-test-dynamic</module>
     </modules>
 
     <properties>
